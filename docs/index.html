@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PACE: An Evolutionary Agentic Approach for Open-ended Image Quality Perception</title>
+<meta name="description" content="PACE is a training-free multi-agent framework that constructs verifiable evaluation protocols for open-ended image quality assessment, reducing the Holistic Override Rate from 44.4% to 8.6%.">
+<style>
+  :root{
+    --ink:#12161c; --muted:#5b6672; --line:#e3e7ec; --bg:#ffffff; --soft:#f6f8fb;
+    --accent:#1f4e8c; --accent-soft:#eaf1fa; --red:#c0392b;
+    --max:1080px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"PingFang SC","Noto Sans",sans-serif;
+    line-height:1.65; font-size:16.5px; -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent); text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:var(--max); margin:0 auto; padding:0 20px}
+
+  header.hero{padding:56px 0 8px; text-align:center}
+  h1{font-size:2.05rem; line-height:1.25; margin:0 0 6px; letter-spacing:-0.01em}
+  .subtitle{color:var(--muted); font-size:1.02rem; margin:0 0 26px}
+  .authors{font-size:1.06rem; margin:0 auto 8px; max-width:900px}
+  .authors span{white-space:nowrap}
+  .affiliations{color:var(--muted); font-size:.92rem; margin:0 auto; max-width:840px}
+  .affiliations div{margin:2px 0}
+
+  .linkrow{display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin:26px 0 8px}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; padding:9px 18px; border-radius:999px;
+    background:var(--ink); color:#fff; font-size:.94rem; font-weight:600; border:1px solid var(--ink);
+  }
+  .btn:hover{text-decoration:none; opacity:.88}
+  .btn.ghost{background:#fff; color:var(--ink); border-color:var(--line)}
+  .btn.disabled{background:#fff; color:var(--muted); border-color:var(--line); cursor:default}
+  .btn.disabled:hover{opacity:1; text-decoration:none}
+
+  figure{margin:34px 0}
+  figure img{width:100%; height:auto; border-radius:10px; display:block}
+  figcaption{color:var(--muted); font-size:.9rem; margin-top:10px; text-align:left}
+
+  section{padding:22px 0}
+  h2{font-size:1.45rem; margin:26px 0 10px; padding-bottom:8px; border-bottom:2px solid var(--line)}
+  h3{font-size:1.12rem; margin:26px 0 6px}
+  p{margin:10px 0}
+
+  .tldr{background:var(--accent-soft); border-left:4px solid var(--accent); border-radius:8px;
+        padding:16px 20px; margin:26px 0}
+  .tldr b{color:var(--accent)}
+  .statgrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px; margin:22px 0}
+  .stat{background:var(--soft); border:1px solid var(--line); border-radius:10px; padding:16px; text-align:center}
+  .stat .num{font-size:1.5rem; font-weight:700; color:var(--accent); display:block; line-height:1.25}
+  .stat .lbl{font-size:.86rem; color:var(--muted)}
+
+  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin:18px 0}
+  .card{border:1px solid var(--line); border-radius:10px; padding:16px 18px; background:#fff}
+  .card h4{margin:0 0 8px; font-size:1rem}
+  .card p{margin:0; font-size:.93rem; color:#38424e}
+  .badge{display:inline-block; font-size:.72rem; font-weight:700; padding:2px 8px; border-radius:999px;
+         background:var(--accent-soft); color:var(--accent); margin-bottom:8px; letter-spacing:.03em}
+
+  .tablewrap{overflow-x:auto; margin:18px 0; border:1px solid var(--line); border-radius:10px}
+  table{border-collapse:collapse; width:100%; font-size:.85rem; min-width:620px}
+  th,td{padding:8px 10px; text-align:center; border-bottom:1px solid var(--line); white-space:nowrap}
+  th{background:var(--soft); font-weight:700; color:#27313c}
+  td:first-child, th:first-child{text-align:left}
+  tr:last-child td{border-bottom:none}
+  tr.hi td{background:#f2f8f4; font-weight:700}
+  .cap{font-size:.86rem; color:var(--muted); margin:-6px 0 22px}
+  .neg{color:var(--red)}
+
+  details{border:1px solid var(--line); border-radius:10px; padding:12px 18px; margin:16px 0; background:var(--soft)}
+  summary{cursor:pointer; font-weight:600}
+
+  pre.cite{background:#12161c; color:#e8eef5; padding:16px 18px; border-radius:10px; overflow-x:auto;
+           font-size:.84rem; line-height:1.5; position:relative}
+  .copy{position:absolute; top:10px; right:10px; background:#2c3542; color:#fff; border:0; border-radius:6px;
+        padding:5px 10px; font-size:.76rem; cursor:pointer}
+  .note{border:1px dashed var(--line); background:var(--soft); border-radius:10px; padding:14px 18px;
+        font-size:.94rem; color:#38424e}
+  footer{border-top:1px solid var(--line); margin-top:44px; padding:26px 0 60px; color:var(--muted);
+         font-size:.88rem; text-align:center}
+</style>
+</head>
+<body>
+
+<header class="hero wrap">
+  <h1>An Evolutionary Agentic Approach for<br>Open-ended Image Quality Perception</h1>
+  <p class="subtitle">PACE &mdash; Perceptual Agentic Collaborative Evolution</p>
+
+  <p class="authors">
+    <span>Zhenchen Tang<sup>1,2</sup></span> &nbsp;
+    <span>Bo Peng<sup>1,2</sup></span> &nbsp;
+    <span>Zichuan Wang<sup>1,2</sup></span> &nbsp;
+    <span>Songlin Yang<sup>3</sup></span> &nbsp;
+    <span>Leilei Cao<sup>4</sup></span> &nbsp;
+    <span>Fengjie Zhu<sup>4</sup></span> &nbsp;
+    <span>Jing Dong<sup>1</sup></span>
+  </p>
+  <div class="affiliations">
+    <div><sup>1</sup>New Laboratory of Pattern Recognition, Institute of Automation, Chinese Academy of Sciences</div>
+    <div><sup>2</sup>School of Artificial Intelligence, University of Chinese Academy of Sciences</div>
+    <div><sup>3</sup>The Hong Kong University of Science and Technology</div>
+    <div><sup>4</sup>Transsion</div>
+  </div>
+
+  <div class="linkrow">
+    <a class="btn" href="assets/pace.pdf">Paper (PDF)</a>
+    <a class="btn ghost" href="https://github.com/2kxx/PACE">GitHub</a>
+    <a class="btn ghost" href="#bibtex">BibTeX</a>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <figure>
+    <img src="assets/teaser.png" alt="Direct MLLM scoring versus PACE on the tactile satisfaction dimension">
+    <figcaption>
+      <b>Holistic bias vs. protocol-based evaluation.</b> Asked to rate <i>tactile satisfaction</i>,
+      a direct MLLM scorer returns 4.55 for a cracked, dry surface that human annotators rate 1.5,
+      because it leans on global aesthetics. PACE decomposes the dimension into verifiable VQA
+      probes, inspects micro-texture with crop-and-zoom, and predicts 1.69.
+    </figcaption>
+  </figure>
+
+  <div class="tldr">
+    <b>TL;DR.</b> PACE treats open-ended image quality assessment as <i>explicit protocol
+    construction</i> instead of score prediction. A training-free multi-agent system evolves
+    verifiable VQA probes for any new perceptual dimension, calibrates them with only
+    <b>four human-annotated images</b>, and scores images with a dual-track logits mechanism that
+    cuts the Holistic Override Rate from <b>44.4% to 8.6%</b>.
+  </div>
+
+  <div class="statgrid">
+    <div class="stat"><span class="num">44.4% &rarr; 8.6%</span><span class="lbl">Holistic Override Rate</span></div>
+    <div class="stat"><span class="num">0.714 / 0.666</span><span class="lbl">Tier-4 open-ended PLCC / SRCC</span></div>
+    <div class="stat"><span class="num">4</span><span class="lbl">human images per new dimension</span></div>
+    <div class="stat"><span class="num">33.8&times;</span><span class="lbl">speed-up after protocol reuse</span></div>
+  </div>
+
+  <section id="abstract">
+    <h2>Abstract</h2>
+    <p>
+      Generative models are rapidly expanding image quality assessment (IQA) beyond traditional
+      fidelity factors to emerging dimensions such as physical plausibility and text-rendering
+      correctness. However, existing IQA models rely on fixed definitions and heavy supervision,
+      making them difficult to extend to open-ended perceptual dimensions. We identify
+      <b>holistic bias</b> as an important limitation: when scoring an unseen dimension, models
+      reuse generic quality priors, leading to scoring errors and rank inversion. To address this,
+      we propose <b>PACE</b> (Perceptual Agentic Collaborative Evolution), a training-free
+      multi-agent framework that formulates open-ended IQA as explicit protocol construction.
+      Given a target dimension, PACE uses collaborative agents to construct an evaluation protocol
+      composed of verifiable Visual Question Answering (VQA) probes, grounding evaluation in
+      concrete visual evidence rather than holistic impressions. The resulting protocol is
+      calibrated using only four human-annotated images per dimension, while a dual-track scoring
+      mechanism aligns model perception with human scoring scales. Across traditional IQA,
+      structural fidelity, context-aware aesthetics, and newly defined open-ended dimensions, PACE
+      consistently improves its MLLM backbone, achieving competitive performance across diverse IQA
+      settings, and reduces the Holistic Override Rate (HOR) from 44.4% to 8.6%.
+    </p>
+  </section>
+
+  <section id="method">
+    <h2>Method</h2>
+    <figure>
+      <img src="assets/pipeline.png" alt="Overview of the PACE pipeline and dual-track scoring">
+      <figcaption>
+        <b>Overview of PACE.</b> <i>Left:</i> the Planning Agent decomposes the target dimension
+        into observable sub-dimensions, and the Visualizer and Critic agents construct and refine
+        VQA probes. <i>Right:</i> a Generator produces HITL calibration anchors; Track 1 scores the
+        image with the resulting protocol, Track 2 aligns the prediction with the human-rated
+        anchors, and the two tracks are fused into the final score.
+      </figcaption>
+    </figure>
+
+    <div class="cards">
+      <div class="card">
+        <span class="badge">STEP 1</span>
+        <h4>Fast-and-slow routing</h4>
+        <p>If the target dimension is close (&gt;0.8 cosine similarity) to a stored one, PACE reuses
+           existing experts or evolved protocols; otherwise it triggers slow thinking to build a new
+           protocol from scratch.</p>
+      </div>
+      <div class="card">
+        <span class="badge">STEP 2</span>
+        <h4>Multi-agent protocol construction</h4>
+        <p>The Planning Agent decomposes the concept into 3&ndash;5 observable sub-dimensions; the
+           Visualizer turns them into VQA probes with score mappings; the Critic rejects subjective,
+           redundant, or non-observable probes in up to three refinement rounds.</p>
+      </div>
+      <div class="card">
+        <span class="badge">STEP 3</span>
+        <h4>One-time HITL calibration</h4>
+        <p>The Generator converts the finalized protocol into positive/negative prompts and
+           synthesizes four candidate images. Human ratings of these images define the reusable
+           high/low anchors and the score range of the new dimension.</p>
+      </div>
+      <div class="card">
+        <span class="badge">STEP 4</span>
+        <h4>Dual-track continuous scoring</h4>
+        <p>Track 1 aggregates logit-softmax expectations over the protocol (absolute perception,
+           &alpha;<sub>1</sub>); Track 2 places the image relative to the anchors (relative
+           perception, &alpha;<sub>2</sub>). Their fusion is projected onto the anchor range.</p>
+      </div>
+    </div>
+
+    <p>
+      Working with <b>logits centroids</b> instead of emitted text keeps predictions continuous and
+      preserves rank correlation with human MOS; <b>crop-and-zoom</b> probing is triggered
+      automatically whenever a protocol refers to high-frequency evidence such as noise, grain, or
+      texture. All agents share the same MLLM backbone and differ only in their system prompts and
+      interaction context, so the gains come from role separation and interaction rather than
+      additional model capacity.
+    </p>
+
+    <figure>
+      <img src="assets/framework.png" alt="Overall architecture of the PACE framework">
+      <figcaption>
+        <b>The overall architecture of PACE.</b> Traditional dimensions are routed to a fast
+        thinking process via an expert toolkit; open-ended dimensions trigger the slow thinking
+        pipeline, in which the Planning, Visualizer, Critic, and Generator agents evolve VQA
+        protocols and synthesize reference images. Evolved knowledge is solidified into a RAG
+        memory bank for future rapid inference.
+      </figcaption>
+    </figure>
+  </section>
+
+  <section id="holistic-bias">
+    <h2>Quantifying holistic bias</h2>
+    <p>
+      The <b>Holistic Override Rate (HOR)</b> measures the fraction of images with poor human
+      ratings on a target dimension (&le;3.0) that receive incorrectly high predictions (&ge;4.0).
+      Across the six open-ended dimensions, Q-Align hallucinates high scores for 36 of 81
+      human-low images (44.4% HOR); PACE, judging with concrete protocols instead of a general
+      impression, reduces this to 8.6% &mdash; and to 2.9% on the challenging <i>tactile
+      satisfaction</i> and <i>human vitality</i> dimensions, where direct MLLM prompting reaches
+      58.8%.
+    </p>
+    <figure>
+      <img src="assets/hor_all.png" alt="HOR across all six open-ended dimensions">
+      <figcaption>
+        <b>Holistic bias across all six open-ended dimensions.</b> The red zone marks images whose
+        human MOS is &le;3.0 while the model predicts &ge;4.0.
+      </figcaption>
+    </figure>
+    <figure>
+      <img src="assets/hor_prominent.png" alt="HOR on tactile satisfaction and human vitality">
+      <figcaption>
+        <b>Holistic bias on prominent dimensions</b> (<i>tactile satisfaction</i> and
+        <i>human vitality</i>): 58.8% HOR for direct MLLM prompting vs. 2.9% for PACE.
+      </figcaption>
+    </figure>
+  </section>
+
+  <section id="results">
+    <h2>Results</h2>
+    <p>
+      PACE is evaluated under a four-tier hierarchy: traditional fidelity benchmarks, structural and
+      logical integrity, context-aware aesthetics, and finally zero-training-data open-ended
+      dimensions. All settings are training-free; the default backbone is Qwen2.5-VL (7B) and the
+      framework also improves mPLUG-Owl2.
+    </p>
+
+    <h3>Tier 1 &mdash; traditional IQA benchmarks (PLCC / SRCC)</h3>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Methods</th><th>KonIQ</th><th>SPAQ</th><th>KADID</th><th>LIVE-Wild</th><th>AGIQA-3K</th><th>CSIQ</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>NIQE</td><td>0.533 / 0.530</td><td>0.679 / 0.664</td><td>0.468 / 0.405</td><td>0.493 / 0.449</td><td>0.560 / 0.533</td><td>0.718 / 0.628</td></tr>
+          <tr><td>BRISQUE</td><td>0.225 / 0.226</td><td>0.490 / 0.406</td><td>0.429 / 0.356</td><td>0.361 / 0.313</td><td>0.541 / 0.497</td><td>0.740 / 0.556</td></tr>
+          <tr><td>NIMA</td><td>0.896 / 0.859</td><td>0.838 / 0.856</td><td>0.532 / 0.535</td><td>0.814 / 0.771</td><td>0.715 / 0.654</td><td>0.695 / 0.649</td></tr>
+          <tr><td>HyperIQA</td><td>0.917 / 0.906</td><td>0.791 / 0.788</td><td>0.506 / 0.468</td><td>0.772 / 0.749</td><td>0.702 / 0.640</td><td>0.752 / 0.717</td></tr>
+          <tr><td>DBCNN</td><td>0.884 / 0.875</td><td>0.812 / 0.806</td><td>0.497 / 0.484</td><td>0.773 / 0.755</td><td>0.730 / 0.641</td><td>0.586 / 0.572</td></tr>
+          <tr><td>MUSIQ</td><td>0.924 / 0.929</td><td>0.868 / 0.863</td><td>0.575 / 0.556</td><td>0.789 / 0.830</td><td>0.722 / 0.630</td><td>0.771 / 0.710</td></tr>
+          <tr><td>CLIP-IQA+</td><td>0.909 / 0.895</td><td>0.866 / 0.864</td><td>0.653 / 0.654</td><td>0.832 / 0.805</td><td>0.736 / 0.685</td><td>0.772 / 0.719</td></tr>
+          <tr><td>Compare2Score</td><td>0.923 / 0.910</td><td>0.867 / 0.860</td><td>0.500 / 0.453</td><td>0.786 / 0.772</td><td>0.777 / 0.671</td><td>0.735 / 0.705</td></tr>
+          <tr><td>Q-Align</td><td>0.941 / 0.940</td><td>0.886 / 0.887</td><td>0.674 / 0.684</td><td>0.853 / 0.860</td><td>0.772 / 0.735</td><td>0.785 / 0.737</td></tr>
+          <tr><td>DeQA-Score</td><td>0.953 / 0.941</td><td>0.895 / 0.896</td><td>0.694 / 0.687</td><td>0.892 / 0.879</td><td>0.809 / 0.729</td><td>0.787 / 0.744</td></tr>
+          <tr><td>Q-Scorer</td><td>0.959 / 0.948</td><td>0.898 / 0.898</td><td>0.676 / 0.671</td><td>0.889 / 0.870</td><td>0.821 / 0.736</td><td>0.796 / 0.746</td></tr>
+          <tr><td>Qwen2.5-VL</td><td>0.737 / 0.692</td><td>0.855 / 0.860</td><td>0.576 / 0.522</td><td>0.625 / 0.615</td><td>0.813 / 0.744</td><td>0.724 / 0.679</td></tr>
+          <tr><td><b>Ours (Slow)</b></td><td>0.841 / 0.783</td><td>0.900 / 0.893</td><td>0.782 / 0.776</td><td>0.807 / 0.760</td><td>0.821 / 0.758</td><td>0.735 / 0.697</td></tr>
+          <tr class="hi"><td>Ours (Fast)</td><td>0.962 / 0.950</td><td>0.930 / 0.929</td><td>0.926 / 0.922</td><td>0.907 / 0.892</td><td>0.822 / 0.751</td><td>0.880 / 0.835</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="cap">Tier 1: PACE (Slow) is entirely training-free and still surpasses its Qwen2.5-VL
+      backbone on every benchmark; PACE (Fast) additionally reuses specialized experts and
+      previously evolved protocols.</p>
+
+    <h3>Tier 2 &mdash; structural and logical integrity</h3>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Methods</th><th>HandEval</th><th>PSNR-SR</th><th>GAN-based SR</th><th>Denoising</th><th>SR Full</th><th>PIPAL</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>CLIP-IQA</td><td>0.403 / 0.423</td><td>0.382 / 0.325</td><td>0.359 / 0.354</td><td>0.325 / 0.326</td><td>0.250 / 0.240</td><td>0.315 / 0.305</td></tr>
+          <tr><td>PickScore</td><td>0.000 / 0.002</td><td>0.120 / <span class="neg">&minus;0.105</span></td><td>0.271 / <span class="neg">&minus;0.217</span></td><td>0.102 / 0.048</td><td>0.173 / <span class="neg">&minus;0.134</span></td><td>0.058 / <span class="neg">&minus;0.013</span></td></tr>
+          <tr><td>ImageReward</td><td>0.282 / 0.279</td><td>0.244 / 0.129</td><td>0.232 / 0.189</td><td>0.231 / 0.182</td><td>0.160 / 0.132</td><td>0.163 / 0.130</td></tr>
+          <tr><td>HPSv2</td><td>0.010 / 0.059</td><td>0.275 / 0.260</td><td>0.351 / 0.317</td><td>0.250 / 0.226</td><td>0.144 / 0.107</td><td>0.189 / 0.167</td></tr>
+          <tr><td>Q-Align</td><td>0.521 / 0.528</td><td>0.438 / 0.430</td><td>0.515 / 0.494</td><td>0.426 / 0.389</td><td>0.407 / 0.408</td><td>0.403 / 0.419</td></tr>
+          <tr><td>Qwen2.5-VL</td><td>0.503 / 0.501</td><td>0.471 / 0.442</td><td>0.425 / 0.390</td><td>0.346 / 0.304</td><td>0.416 / 0.351</td><td>0.390 / 0.357</td></tr>
+          <tr class="hi"><td>Ours (Slow)</td><td>0.572 / 0.575</td><td>0.607 / 0.592</td><td>0.536 / 0.520</td><td>0.442 / 0.407</td><td>0.496 / 0.448</td><td>0.493 / 0.457</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="cap">Tier 2: preference-oriented reward models nearly collapse on hand anatomy and
+      restoration artifacts, while explicit protocols plus crop-and-zoom probing keep PACE's
+      ranking aligned with human judgment.</p>
+
+    <h3>Tier 3 &mdash; context-aware aesthetics (TAD66k subsets)</h3>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Methods</th><th>City</th><th>Nature</th><th>Sea</th><th>Yellow</th><th>Flower</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>CLIP-IQA</td><td>0.210 / <span class="neg">&minus;0.120</span></td><td>0.152 / 0.008</td><td>0.217 / <span class="neg">&minus;0.153</span></td><td>0.054 / 0.007</td><td>0.120 / 0.009</td></tr>
+          <tr><td>PickScore</td><td>0.251 / 0.163</td><td>0.233 / 0.224</td><td>0.151 / 0.141</td><td>0.237 / 0.233</td><td>0.125 / 0.068</td></tr>
+          <tr><td>ImageReward</td><td>0.217 / 0.140</td><td>0.220 / 0.165</td><td>0.115 / 0.062</td><td>0.268 / 0.219</td><td>0.131 / 0.049</td></tr>
+          <tr><td>HPSv2</td><td>0.259 / 0.242</td><td>0.152 / 0.128</td><td>0.195 / 0.141</td><td>0.213 / 0.197</td><td>0.031 / 0.026</td></tr>
+          <tr><td>Q-Align</td><td>0.304 / 0.285</td><td>0.118 / 0.129</td><td>0.170 / 0.110</td><td>0.228 / 0.202</td><td>0.157 / 0.086</td></tr>
+          <tr><td>Qwen2.5-VL</td><td>0.391 / 0.370</td><td>0.295 / 0.290</td><td>0.249 / 0.206</td><td>0.213 / 0.225</td><td>0.144 / 0.111</td></tr>
+          <tr class="hi"><td>Ours (Slow)</td><td>0.438 / 0.409</td><td>0.327 / 0.279</td><td>0.278 / 0.239</td><td>0.293 / 0.263</td><td>0.169 / 0.157</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="cap">Tier 3: context-specific protocols (e.g. geometric perspective for city scenes,
+      color harmony and depth-of-field for flowers) outperform a single fixed notion of aesthetics.</p>
+
+    <h3>Tier 4 &mdash; zero-training-data open-ended dimensions</h3>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Methods</th><th>Typo</th><th>Light</th><th>Tactile</th><th>Dream</th><th>Portrait</th><th>Cine</th><th>OVERALL</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>CLIP-IQA</td><td><span class="neg">&minus;0.142 / &minus;0.240</span></td><td>0.128 / 0.051</td><td>0.095 / 0.090</td><td>0.430 / 0.363</td><td>0.423 / 0.416</td><td>0.624 / 0.637</td><td>0.260 / 0.219</td></tr>
+          <tr><td>PickScore</td><td><span class="neg">&minus;0.073 / &minus;0.028</span></td><td>0.043 / 0.015</td><td>0.008 / <span class="neg">&minus;0.002</span></td><td>0.675 / 0.595</td><td>0.225 / 0.159</td><td>0.611 / 0.649</td><td>0.248 / 0.231</td></tr>
+          <tr><td>ImageReward</td><td><span class="neg">&minus;0.104 / &minus;0.176</span></td><td><span class="neg">&minus;0.462 / &minus;0.205</span></td><td>0.071 / 0.116</td><td>0.746 / 0.661</td><td><span class="neg">&minus;0.294 / &minus;0.216</span></td><td>0.736 / 0.714</td><td>0.115 / 0.149</td></tr>
+          <tr><td>HPSv2</td><td><span class="neg">&minus;0.013</span> / 0.062</td><td><span class="neg">&minus;0.257 / &minus;0.161</span></td><td>0.388 / 0.437</td><td>0.697 / 0.725</td><td><span class="neg">&minus;0.010 / &minus;0.038</span></td><td>0.617 / 0.609</td><td>0.237 / 0.272</td></tr>
+          <tr><td>Q-Align</td><td>0.461 / 0.608</td><td><span class="neg">&minus;0.187 / &minus;0.211</span></td><td>0.312 / 0.386</td><td>0.009 / 0.155</td><td><span class="neg">&minus;0.058</span> / 0.125</td><td>0.487 / 0.519</td><td>0.170 / 0.264</td></tr>
+          <tr><td>Qwen2.5-VL</td><td>0.339 / 0.480</td><td><span class="neg">&minus;0.088 / &minus;0.057</span></td><td>0.604 / 0.644</td><td><b>0.874</b> / 0.758</td><td>0.535 / 0.468</td><td>0.694 / 0.710</td><td>0.493 / 0.501</td></tr>
+          <tr class="hi"><td>Ours (Slow)</td><td>0.684 / 0.673</td><td>0.348 / 0.204</td><td>0.838 / 0.796</td><td>0.849 / 0.785</td><td>0.806 / 0.790</td><td>0.759 / 0.745</td><td>0.714 / 0.666</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="cap">Tier 4: most baselines show polarity inversion (negative SRCC) because generic
+      quality priors override dimension-specific reasoning. PACE keeps continuous, human-aligned
+      scoring on all six unseen dimensions.</p>
+
+    <details>
+      <summary>Ablations &amp; backbone generalization</summary>
+      <p>
+        Both scoring tracks help, and their balanced fusion (&omega;<sub>1</sub> = &omega;<sub>2</sub> = 0.5)
+        is the most stable across benchmarks (e.g. 0.900 PLCC on SPAQ). Removing protocol
+        construction hurts clearly, and removing the Critic hurts further &mdash; with the same
+        Qwen2.5-VL backbone behind every agent, the gains therefore come from role separation and
+        interaction rather than extra model capacity.
+      </p>
+      <p>
+        Swapping the backbone to <b>mPLUG-Owl2</b> improves five of six Tier-1 benchmarks, e.g.
+        KonIQ 0.4290 / 0.3647 &rarr; 0.5723 / 0.5265 and LIVE-Wild 0.5250 / 0.4430 &rarr;
+        0.6326 / 0.5684, confirming that PACE is backbone-agnostic.
+      </p>
+      <p>
+        Pooled over the 180 Tier-4 images, the six human annotators reach an inter-annotator
+        reliability of ICC(2,k) = 0.859 (Cronbach's &alpha; = 0.862), and the reported PLCC/SRCC
+        gaps are statistically significant. Full latency measurements (PACE Slow 22.72 s/image,
+        PACE Fast 0.67 s/image) are given in the paper appendix.
+      </p>
+    </details>
+  </section>
+
+  <section id="cases">
+    <h2>Qualitative case studies</h2>
+    <figure>
+      <img src="assets/cases.png" alt="Qualitative case studies on cinematic narrative and text rendering fidelity">
+      <figcaption>
+        <b>Two open-ended dimensions.</b> For each case PACE decomposes the concept, constructs a
+        Critic-filtered VQA protocol (red crosses mark rejected components), evaluates the image
+        with Track 1 (&alpha;<sub>1</sub>), positions it against the human-rated anchors with
+        Track 2 (&alpha;<sub>2</sub>), and fuses both into the final score &mdash; e.g. 3.74 vs. a
+        human MOS of 3.83 for <i>cinematic narrative</i>.
+      </figcaption>
+    </figure>
+  </section>
+
+  <section id="code">
+    <h2>Code and data</h2>
+    <div class="note">
+      <b>Code will be released upon publication.</b> The release will include the multi-agent
+      pipeline and prompt templates, the dual-track logits scoring, the RAG memory bank and
+      crop-and-zoom tool, the evaluation scripts for all four tiers, and the 180-image Tier-4
+      probing set with its six-annotator MOS. Watch
+      <a href="https://github.com/2kxx/PACE">github.com/2kxx/PACE</a> for the update.
+    </div>
+  </section>
+
+  <section id="bibtex">
+    <h2>BibTeX</h2>
+    <pre class="cite" id="bib"><button class="copy" onclick="copyBib()">Copy</button>@misc{tang2026pace,
+  title  = {An Evolutionary Agentic Approach for Open-ended Image Quality Perception},
+  author = {Tang, Zhenchen and Peng, Bo and Wang, Zichuan and Yang, Songlin and
+            Cao, Leilei and Zhu, Fengjie and Dong, Jing},
+  year   = {2026},
+  note   = {Preprint}
+}</pre>
+  </section>
+
+  <footer>
+    <p>PACE &middot; Perceptual Agentic Collaborative Evolution</p>
+    <p>Contact: Zhenchen Tang, Jing Dong &mdash; New Laboratory of Pattern Recognition,
+       Institute of Automation, Chinese Academy of Sciences</p>
+  </footer>
+</div>
+
+<script>
+function copyBib(){
+  var box = document.getElementById('bib');
+  var txt = box.innerText.replace(/^Copy\s*/, '');
+  navigator.clipboard.writeText(txt).then(function(){
+    var b = document.querySelector('.copy');
+    b.textContent = 'Copied!';
+    setTimeout(function(){ b.textContent = 'Copy'; }, 1500);
+  });
+}
+</script>
+</body>
+</html>

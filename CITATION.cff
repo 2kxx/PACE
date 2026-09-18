@@ -1,0 +1,47 @@
+cff-version: 1.2.0
+title: "An Evolutionary Agentic Approach for Open-ended Image Quality Perception"
+message: "If you use PACE in your research, please cite this work."
+type: software
+authors:
+  - family-names: Tang
+    given-names: Zhenchen
+    affiliation: "New Laboratory of Pattern Recognition, Institute of Automation, Chinese Academy of Sciences"
+  - family-names: Peng
+    given-names: Bo
+    affiliation: "Institute of Automation, Chinese Academy of Sciences"
+  - family-names: Wang
+    given-names: Zichuan
+    affiliation: "Institute of Automation, Chinese Academy of Sciences"
+  - family-names: Yang
+    given-names: Songlin
+    affiliation: "The Hong Kong University of Science and Technology"
+  - family-names: Cao
+    given-names: Leilei
+    affiliation: "Transsion"
+  - family-names: Zhu
+    given-names: Fengjie
+    affiliation: "Transsion"
+  - family-names: Dong
+    given-names: Jing
+    affiliation: "New Laboratory of Pattern Recognition, Institute of Automation, Chinese Academy of Sciences"
+year: 2026
+license: MIT
+preferred-citation:
+  type: article
+  title: "An Evolutionary Agentic Approach for Open-ended Image Quality Perception"
+  authors:
+    - family-names: Tang
+      given-names: Zhenchen
+    - family-names: Peng
+      given-names: Bo
+    - family-names: Wang
+      given-names: Zichuan
+    - family-names: Yang
+      given-names: Songlin
+    - family-names: Cao
+      given-names: Leilei
+    - family-names: Zhu
+      given-names: Fengjie
+    - family-names: Dong
+      given-names: Jing
+  year: 2026
