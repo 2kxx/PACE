@@ -9,12 +9,14 @@
 
 Zhenchen Tang<sup>1,2</sup>, Bo Peng<sup>1,2</sup>, Zichuan Wang<sup>1,2</sup>,
 Songlin Yang<sup>3</sup>, Leilei Cao<sup>4</sup>, Fengjie Zhu<sup>4</sup>,
-Jing Dong<sup>1, 2</sup>
+Jing Dong<sup>1,2,\*</sup>
 
 <sup>1</sup>New Laboratory of Pattern Recognition, Institute of Automation, Chinese Academy of
 Sciences &nbsp;·&nbsp; <sup>2</sup>School of Artificial Intelligence, University of Chinese
 Academy of Sciences &nbsp;·&nbsp; <sup>3</sup>The Hong Kong University of Science and
 Technology &nbsp;·&nbsp; <sup>4</sup>Transsion
+
+<sup>\*</sup>Corresponding author: Jing Dong
 
 > **Paper:** [`docs/assets/pace.pdf`](docs/assets/pace.pdf) &nbsp;|&nbsp;
 > **Project page:** https://2kxx.github.io/PACE/ &nbsp;|&nbsp;
