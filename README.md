@@ -132,7 +132,7 @@ Full tables, ablations, latency measurements, inter-annotator reliability (ICC(2
 
 ## 🗂 Code and data release
 
-**The source code and the Tier-4 data** will be released upon publication and will contain.
+**The source code and the Tier-4 data** will be released upon publication.
 
 ## 📝 Citation
 
