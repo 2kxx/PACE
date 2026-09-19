@@ -7,7 +7,7 @@
 [![Code](https://img.shields.io/badge/Code-Releasing%20soon-yellow.svg)](#-code-and-data-release)
 [![License](https://img.shields.io/badge/License-MIT-lightgrey.svg)](LICENSE)
 
-Zhenchen Tang<sup>1,2</sup>, Bo Peng<sup>1,2</sup>, Zichuan Wang<sup>1,2</sup>,
+Zhenchen Tang<sup>1,2</sup>, Bo Peng<sup>1,2,\*</sup>, Zichuan Wang<sup>1,2</sup>,
 Songlin Yang<sup>3</sup>, Leilei Cao<sup>4</sup>, Fengjie Zhu<sup>4</sup>,
 Jing Dong<sup>1,2,\*</sup>
 
