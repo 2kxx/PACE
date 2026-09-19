@@ -129,35 +129,10 @@ Full tables, ablations, latency measurements, inter-annotator reliability (ICC(2
 180 images), and the qualitative case studies are available in the
 [paper](docs/assets/pace.pdf) and on the [project page](https://2kxx.github.io/PACE/).
 
-## 📁 What is in this repository
-
-```
-├── README.md               # this file
-├── docs/
-│   ├── index.html          # project page (served via GitHub Pages from /docs)
-│   └── assets/             # paper PDF + figures used by the project page
-├── CITATION.cff
-└── LICENSE
-```
-
-The [project page](https://2kxx.github.io/PACE/) is generated from `docs/index.html`; enable
-it with *Settings → Pages → Source: main branch /docs*.
 
 ## 🗂 Code and data release
 
-To keep this preprint repository lightweight, **the source code and the Tier-4 data are not
-included here yet**. They will be released upon publication and will contain:
-
-* the multi-agent pipeline (Planning / Visualizer / Critic / Generator agents) and the prompt
-  templates of the paper appendix;
-* the dual-track logits scoring implementation (Track 1 absolute perception, Track 2 relative
-  perception, anchor-based projection);
-* the fast-and-slow routing logic together with the RAG memory bank and the crop-and-zoom tool;
-* evaluation scripts for all four tiers and for the baselines, plus the metric calculators;
-* the 180-image Tier-4 probing set with the raw six-annotator MOS used in the paper.
-
-Please watch ⭐ or *watch* this repository to be notified when they land, or contact us in the
-meantime for early access.
+**The source code and the Tier-4 data** will be released upon publication and will contain.
 
 ## 📝 Citation
 
@@ -178,8 +153,3 @@ Released under the [MIT License](LICENSE) (documentation and figures).
 We thank the authors of **Qwen2.5-VL** and **mPLUG-Owl2** (multimodal backbones), **Q-Scorer**
 and **DeQA-Score** (specialized IQA experts), and **Stable Diffusion** (anchor generation) for
 making their models publicly available.
-
-## 📧 Contact
-
-Zhenchen Tang, Jing Dong — New Laboratory of Pattern Recognition, Institute of Automation,
-Chinese Academy of Sciences.
