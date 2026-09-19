@@ -9,7 +9,7 @@
 
 Zhenchen Tang<sup>1,2</sup>, Bo Peng<sup>1,2</sup>, Zichuan Wang<sup>1,2</sup>,
 Songlin Yang<sup>3</sup>, Leilei Cao<sup>4</sup>, Fengjie Zhu<sup>4</sup>,
-Jing Dong<sup>1</sup>
+Jing Dong<sup>1, 2</sup>
 
 <sup>1</sup>New Laboratory of Pattern Recognition, Institute of Automation, Chinese Academy of
 Sciences &nbsp;·&nbsp; <sup>2</sup>School of Artificial Intelligence, University of Chinese
