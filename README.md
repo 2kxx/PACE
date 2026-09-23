@@ -4,7 +4,7 @@
 
 [![Paper](https://img.shields.io/badge/Paper-PDF-B31B1B.svg)](https://arxiv.org/abs/2609.22942)
 [![Project Page](https://img.shields.io/badge/Project-Page-blue.svg)](https://2kxx.github.io/PACE/)
-[![Code](https://img.shields.io/badge/Code-Releasing%20soon-yellow.svg)](#-code-and-data-release)
+[![Code](https://img.shields.io/badge/Code-yellow.svg)](#-code-and-data-release)
 [![License](https://img.shields.io/badge/License-MIT-lightgrey.svg)](LICENSE)
 
 Zhenchen Tang<sup>1,2</sup>, Bo Peng<sup>1,2,\*</sup>, Zichuan Wang<sup>1,2</sup>,
