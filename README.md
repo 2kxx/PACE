@@ -2,7 +2,7 @@
 
 ### An Evolutionary Agentic Approach for Open-ended Image Quality Perception
 
-[![Paper](https://img.shields.io/badge/Paper-PDF-B31B1B.svg)](docs/assets/pace.pdf)
+[![Paper](https://img.shields.io/badge/Paper-PDF-B31B1B.svg)](https://arxiv.org/abs/2609.22942)
 [![Project Page](https://img.shields.io/badge/Project-Page-blue.svg)](https://2kxx.github.io/PACE/)
 [![Code](https://img.shields.io/badge/Code-Releasing%20soon-yellow.svg)](#-code-and-data-release)
 [![License](https://img.shields.io/badge/License-MIT-lightgrey.svg)](LICENSE)
@@ -137,12 +137,14 @@ Full tables, ablations, latency measurements, inter-annotator reliability (ICC(2
 ## 📝 Citation
 
 ```bibtex
-@misc{tang2026pace,
-  title  = {An Evolutionary Agentic Approach for Open-ended Image Quality Perception},
-  author = {Tang, Zhenchen and Peng, Bo and Wang, Zichuan and Yang, Songlin and
-            Cao, Leilei and Zhu, Fengjie and Dong, Jing},
-  year   = {2026},
-  note   = {Preprint}
+@misc{tang2026evolutionaryagenticapproachopenended,
+      title={An Evolutionary Agentic Approach for Open-ended Image Quality Perception}, 
+      author={Zhenchen Tang and Bo Peng and Zichuan Wang and Songlin Yang and Leilei Cao and Fengjie Zhu and Jing Dong},
+      year={2026},
+      eprint={2609.22942},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2609.22942}, 
 }
 ```
 
