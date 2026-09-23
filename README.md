@@ -144,8 +144,6 @@ Full tables, ablations, latency measurements, inter-annotator reliability (ICC(2
 
 ## 📄 License and acknowledgements
 
-Released under the [MIT License](LICENSE) (documentation and figures).
-
 We thank the authors of **Qwen2.5-VL** and **mPLUG-Owl2** (multimodal backbones), **Q-Scorer**
 and **DeQA-Score** (specialized IQA experts), and **Stable Diffusion** (anchor generation) for
 making their models publicly available.
