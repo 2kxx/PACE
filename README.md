@@ -16,10 +16,6 @@ Sciences &nbsp;·&nbsp; <sup>2</sup>School of Artificial Intelligence, Universit
 Academy of Sciences &nbsp;·&nbsp; <sup>3</sup>The Hong Kong University of Science and
 Technology &nbsp;·&nbsp; <sup>4</sup>Transsion
 
-> **Project page:** https://2kxx.github.io/PACE/ &nbsp;|&nbsp;
-> **Code:** will be released upon publication (see
-> [Code and data release](#-code-and-data-release)).
-
 ---
 
 ## 🔎 Overview
